@@ -69,13 +69,12 @@ var viewLow = function () {
                 console.log("Product ID: " + res[i].id + " Product Name: " + res[i].productName + " Stock: " + res[i].stockQuantity + "\n");
             };
         } else {
-            console.log("All items currently meet Bamazon stock requirements\n");
+            console.log("\nAll items currently meet Bamazon stock requirements\n");
         }
         //Returns user to the Manager Prompt.
         managerPrompt();
     })
 };
-
 
 var addInventory = function () {
     //Connects to the Bamazon Database and requires the user to enter a number as valid product ID and Quantity.
@@ -133,5 +132,55 @@ var addInventory = function () {
                 managerPrompt();
             })
         })
+    })
+};
+
+var newProduct = function () {
+    //Prompts the user to add a Product Name, Department Name, Price, and Stock for a new product.
+    inquirer.prompt([
+        {
+            name: "addProduct",
+            type: "input",
+            message: "Enter a name for the product"
+        },
+        {
+            name: "addDepartment",
+            type: "input",
+            message: "Enter a department for this product"
+        },
+        {
+            name: "addPrice",
+            type: "input",
+            message: "Enter a price for this product",
+            validate: function (value) {
+                if (isNaN(value) === false) {
+                    return true;
+                } else {
+                    console.log(" is not a valid price.  Please enter a valid price.");
+                    return false;
+                }
+            }
+        },
+        {
+            name: "addQuantity",
+            type: "input",
+            message: "Enter a quantity for this product",
+            validate: function (value) {
+                if (isNaN(value) === false) {
+                    return true;
+                } else {
+                    console.log(" is not a valid quantity.  Please enter a valid quantity.");
+                    return false;
+                }
+            }
+        }
+    ]).then(function (answer) {
+        //Connects to the Database to update the "products" table with the information the user entered.
+        connection.query("INSERT INTO products SET ?", { productName: answer.addProduct, departmentName: answer.addDepartment, price: answer.addPrice, stockQuantity: answer.addQuantity }, function (err) {
+            if (err) throw err;
+            //Logs a message if the addition is successfull.  Returns user to Manager Prompt.
+            console.log(answer.addProduct + " was successfully added to the Bamazon warehouse!");
+            managerPrompt();
+        });
     })
 };
