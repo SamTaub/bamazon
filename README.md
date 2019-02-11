@@ -1,5 +1,9 @@
 # Bamazon
 
+Link to GitHub: [https://github.com/SamTaub/bamazon]
+
+Link to video demo: [https://drive.google.com/file/d/1pNDVBnpcOel_vgibAvjdUGJB186fSsEA/view]
+
 ### Description
 
 Bamazon is a mock marketplace that houses various items.  This application runs in node and is connected to a local MySQL database.  Users can use this application in Customer or Manager mode.
